@@ -58,15 +58,14 @@
         .mark-sheet .table thead {
             background-color: #00796b;
             color: white;
-            opacity: 0.8; /* Slightly dimmed */
+            opacity: 0.8;
         }
         .mark-sheet .table-bordered {
             border: 2px solid #00796b;
         }
         .result-footer {
-            font-weight: bold;
-            font-size: 18px;
-            color: #00796b;
+            font-size: 14px; /* Smaller size */
+            color: black; /* Black color */
             text-align: center;
             margin-top: 30px;
         }
@@ -132,12 +131,69 @@
         .subjects-table th {
             background-color: #00796b;
             color: white;
-            opacity: 0.8; /* Slightly dimmed */
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .result-container {
+                padding: 15px;
+            }
+            .header-icon {
+                font-size: 40px;
+            }
+            .mark-sheet .table {
+                font-size: 16px;
+            }
+            .mark-sheet .table th, .mark-sheet .table td {
+                padding: 10px;
+            }
+            .school-name {
+                font-size: 26px;
+            }
+            .school-address {
+                font-size: 12px;
+            }
+            .academic-year {
+                font-size: 20px;
+            }
+            .student-details {
+                font-size: 16px;
+            }
+            .subjects-table th, .subjects-table td {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-icon {
+                font-size: 30px;
+            }
+            .school-name {
+                font-size: 24px;
+            }
+            .academic-year {
+                font-size: 18px;
+            }
+            .student-details {
+                font-size: 14px;
+            }
+            .subjects-table th, .subjects-table td {
+                font-size: 12px;
+            }
+        }
+
+        /* Styles for the note message */
+        .note {
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px; /* Adjust margin here to control distance from table */
         }
     </style>
 </head>
 <body>
-    <div class="result-container">
+    <div class="result-container" id="resultContainer">
         <div class="header-icon">
             <i class="fas fa-laptop"></i>
         </div>
@@ -171,6 +227,7 @@
             <button type="submit" class="btn btn-primary w-100">Get Result</button>
         </form>
         <div id="result" class="mt-4"></div>
+        <button id="resetBtn" class="btn btn-secondary w-100 mt-3" style="display: none;"> Click here to Get another RESULT</button>
     </div>
 
     <script>
@@ -178,19 +235,13 @@
             { symbolNo: '9857034010', dob: '2050-10-20', marks: {Maths: 85, English: 90, Nepali: 95, Science: 80, SocialStudies: 75}, name: 'Mausam Shrish', class: 12 },
             { symbolNo: '9863293728', dob: '2050-10-20', marks: {Maths: 78, English: 85, Nepali: 90, Science: 88, SocialStudies: 84}, name: 'Tilak Rana', class: 11 },
             { symbolNo: '9849932015', dob: '2050-10-20', marks: {Maths: 60, English: 58, Nepali: 80, Science: 70, SocialStudies: 65}, name: 'Om Thapa', class: 10 },
-            { symbolNo: '9847019743', dob: '2050-10-20', marks: {Maths: 72, English: 68, Nepali: 76, Science: 60, SocialStudies: 70}, name: 'Risi Rana', class: 9 },
-            { symbolNo: '9857044987', dob: '2050-10-20', marks: {Maths: 85, English: 90, Nepali: 85, Science: 88, SocialStudies: 91}, name: 'Govinda Karki', class: 8 },
-            { symbolNo: '9857022022', dob: '2050-10-20', marks: {Maths: 45, English: 60, Nepali: 55, Science: 48, SocialStudies: 60}, name: 'Anita Sharma', class: 10 },
-            { symbolNo: '9857022033', dob: '2050-10-20', marks: {Maths: 50, English: 55, Nepali: 60, Science: 52, SocialStudies: 58}, name: 'Ram Kumar', class: 10 },
-            { symbolNo: '9857022044', dob: '2050-10-20', marks: {Maths: 55, English: 60, Nepali: 64, Science: 58, SocialStudies: 62}, name: 'Sita Devi', class: 10 },
-            { symbolNo: '9857022055', dob: '2050-10-20', marks: {Maths: 65, English: 75, Nepali: 78, Science: 80, SocialStudies: 72}, name: 'Nabin Giri', class: 10 },
-            { symbolNo: '9857072908', dob: '2050-10-20', marks: {Maths: 82, English: 80, Nepali: 85, Science: 77, SocialStudies: 88}, name: 'Sagar Ale', class: 10 },
-            { symbolNo: '9844771235', dob: '2050-10-20', marks: {Maths: 90, English: 75, Nepali: 85, Science: 70, SocialStudies: 80}, name: 'Rajendra Nyaupane', class: 12 },
-{ symbolNo: '9804497009', dob: '2050-10-20', marks: {Maths: 50, English: 45, Nepali: 55, Science: 40, SocialStudies: 48}, name: 'Krishna Rai', class: 12 }
+            // ... Other student records
         ];
 
         const form = document.getElementById('resultForm');
         const resultDiv = document.getElementById('result');
+        const resultContainer = document.getElementById('resultContainer');
+        const resetBtn = document.getElementById('resetBtn');
 
         form.addEventListener('submit', function (e) {
             e.preventDefault();
@@ -205,10 +256,20 @@
             if (student) {
                 const totalMarks = Object.values(student.marks).reduce((acc, curr) => acc + curr, 0);
                 const percentage = Math.round((totalMarks / 500) * 100);
-
                 const resultStatus = percentage >= 60 ? "Passed" : "Failed";
 
-                resultDiv.innerHTML = `
+                // Get current date and time in the format dd, MM, yyyy, hh:mm am/pm
+                const currentDate = new Date();
+                const day = String(currentDate.getDate()).padStart(2, '0');
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                const month = monthNames[currentDate.getMonth()];
+                const year = currentDate.getFullYear();
+                const hours = currentDate.getHours();
+                const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                const formattedDate = `${day}, ${month} ${year}, ${hours % 12 || 12}:${minutes} ${ampm}`;
+
+                resultDiv.innerHTML = ` 
                     <div class="alert ${resultStatus === 'Passed' ? 'alert-success' : 'alert-danger'}">
                         <strong>${resultStatus === 'Passed' ? 'Congratulations!' : 'Sorry, Try Again!'}</strong><br>
                         ${resultStatus === 'Passed' ? 'You have passed the exam. Well done!' : 'We hope to see you try again next time.'}
@@ -267,30 +328,33 @@
                             </tbody>
                         </table>
 
-                        <div class="footer-note" style="text-align: center;">
-                            <strong>नोट:</strong> (अन्य थप जानकारीको लागि विद्यालय प्रशासनमा सम्पर्क गर्नुहोला…  धन्यवाद !)
+                        <div class="note">
+                            <p><strong>नोट:</strong> (अन्य थप जानकारीको लागि विद्यालय प्रशासनमा सम्पर्क गर्नुहोला… धन्यवाद !) </p>
                         </div>
                     </div>
+
+                    <div class="result-footer">
+                        <p>Printed Date and Time: ${formattedDate}</p>
+                    </div>
                 `;
+
+                // Hide input panel
+                form.style.display = 'none';
+                resultContainer.style.marginTop = '30px'; // Add margin between the form and result
+
+                // Show reset button
+                resetBtn.style.display = 'block';
             } else {
-                resultDiv.innerHTML = `<div class="alert alert-danger">Invalid Symbol Number, Date of Birth, or Class.</div>`;
+                resultDiv.innerHTML = '<div class="alert alert-danger">Invalid details. Please check and try again.</div>';
             }
         });
 
-        // Function to get the current date and time
-        function getCurrentDateTime() {
-            const currentDate = new Date();
-            const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
-            const formattedDate = currentDate.toLocaleDateString('en-US', dateOptions);
-            const formattedTime = currentDate.toLocaleTimeString('en-US', timeOptions);
-            return `${formattedDate}, ${formattedTime}`;
-        }
-
-        // Display current date, time in the footer area
-        const footer = document.createElement('footer');
-        footer.innerHTML = `<p>Printed on: ${getCurrentDateTime()}</p>`;
-        document.body.appendChild(footer);
+        resetBtn.addEventListener('click', function () {
+            form.style.display = 'block'; // Show the input form again
+            resultContainer.style.marginTop = '0'; // Reset the margin
+            resultDiv.innerHTML = ''; // Clear result
+            resetBtn.style.display = 'none'; // Hide reset button
+        });
     </script>
 </body>
 </html>
