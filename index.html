@@ -9,53 +9,69 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #f0f4f8;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             flex-direction: column;
+            font-family: 'Raleway', sans-serif;
         }
         .result-container {
             background: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 500px;
-            border: 2px solid #ddd; /* Adding a slight border */
+            max-width: 900px;
+            border: 2px solid #00796b;
             margin-bottom: 20px;
         }
-        .school-name {
+        .header-icon {
+            font-size: 60px;
+            color: #00796b;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .mark-sheet {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid #00796b;
+            margin-top: 20px;
+        }
+        .mark-sheet h4 {
+            text-align: center;
+            font-weight: 700;
+            color: #00796b;
+            margin-bottom: 20px;
+        }
+        .mark-sheet .table {
+            margin-top: 20px;
             font-size: 18px;
-            font-family: 'Raleway', sans-serif;
-            font-weight: 600;
-            text-align: center;
-            color: #333;
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
         }
-        .school-location {
-            font-size: 12px;
-            font-family: 'Raleway', sans-serif;
-            font-weight: 400;
+        .mark-sheet .table th, .mark-sheet .table td {
             text-align: center;
-            color: #555;
-            margin-bottom: 20px;
-            letter-spacing: 0.5px;
+            padding: 15px;
         }
-        .school-year {
-            font-size: 22px; /* Slightly bigger font size */
-            font-family: 'Pacifico', cursive; /* New stylish font */
+        .mark-sheet .table thead {
+            background-color: #00796b;
+            color: white;
+            opacity: 0.8; /* Slightly dimmed */
+        }
+        .mark-sheet .table-bordered {
+            border: 2px solid #00796b;
+        }
+        .result-footer {
+            font-weight: bold;
+            font-size: 18px;
+            color: #00796b;
             text-align: center;
-            color: #00796b; /* Stylish green color */
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-            text-decoration: underline;
-            font-weight: normal; /* Remove boldness */
+            margin-top: 30px;
         }
         .alert {
-            margin-top: 15px;
+            margin-top: 20px;
         }
         .alert-success {
             background-color: #e0f7fa;
@@ -67,23 +83,61 @@
             border-color: #f44336;
             color: #d32f2f;
         }
-        .header-icon {
-            font-size: 60px;
+
+        /* Custom Styles */
+        .school-name {
+            font-size: 30px;
+            font-weight: bold;
             color: #00796b;
             text-align: center;
-            margin-bottom: 20px;
         }
-        footer {
+        .school-address {
             font-size: 14px;
-            text-align: center;
             color: #555;
+            text-align: center;
+        }
+        .academic-year {
+            font-size: 22px;
+            font-weight: bold;
+            color: #00796b;
+            text-align: center;
+            margin-top: 10px;
+            text-decoration: underline;
+        }
+        .online-mark-sheet {
+            font-size: 28px;
+            font-weight: bold;
+            color: #00796b;
+            text-align: center;
             margin-top: 20px;
+        }
+        .student-details {
+            font-size: 18px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .student-details div {
+            font-weight: bold;
+        }
+        .subjects-table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+        .subjects-table th, .subjects-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .subjects-table th {
+            background-color: #00796b;
+            color: white;
+            opacity: 0.8; /* Slightly dimmed */
         }
     </style>
 </head>
 <body>
     <div class="result-container">
-        <!-- Symbolic Laptop Image (Icon) -->
         <div class="header-icon">
             <i class="fas fa-laptop"></i>
         </div>
@@ -119,24 +173,20 @@
         <div id="result" class="mt-4"></div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        (नोट: अन्य थप जानकारीको लागि विद्यालय प्रशासनमा सम्पर्क गर्नुहोला । धन्यवाद !)
-    </footer>
-
     <script>
         const database = [
-            { symbolNo: '9857034010', dob: '2050-10-20', marks: 99, name: 'Mausam Shrish', class: 12 },
-            { symbolNo: '9863293728', dob: '2050-10-20', marks: 90, name: 'Tilak Rana', class: 11 },
-            { symbolNo: '9849932015', dob: '2050-10-20', marks: 80, name: 'Om Thapa', class: 10 },
-            { symbolNo: '9847019743', dob: '2050-10-20', marks: 85, name: 'Risi Rana', class: 9 },
-            { symbolNo: '9857044987', dob: '2050-10-20', marks: 95, name: 'Govinda Karki', class: 8 },
-            { symbolNo: '9857022022', dob: '2050-10-20', marks: 56, name: 'Anita Sharma', class: 10 },
-            { symbolNo: '9857022033', dob: '2050-10-20', marks: 70, name: 'Ram Kumar', class: 10 },
-            { symbolNo: '9857022044', dob: '2050-10-20', marks: 65, name: 'Sita Devi', class: 10 },
-            { symbolNo: '9857022055', dob: '2050-10-20', marks: 72, name: 'Nabin Giri', class: 10 },
-            { symbolNo: '9857072908', dob: '2050-10-20', marks: 95, name: 'Sagar Ale', class: 10 },
-            { symbolNo: '9844771235', dob: '2050-10-20', marks: 83, name: 'Rajendra Nyaupane', class: 12 }
+            { symbolNo: '9857034010', dob: '2050-10-20', marks: {Maths: 85, English: 90, Nepali: 95, Science: 80, SocialStudies: 75}, name: 'Mausam Shrish', class: 12 },
+            { symbolNo: '9863293728', dob: '2050-10-20', marks: {Maths: 78, English: 85, Nepali: 90, Science: 88, SocialStudies: 84}, name: 'Tilak Rana', class: 11 },
+            { symbolNo: '9849932015', dob: '2050-10-20', marks: {Maths: 60, English: 58, Nepali: 80, Science: 70, SocialStudies: 65}, name: 'Om Thapa', class: 10 },
+            { symbolNo: '9847019743', dob: '2050-10-20', marks: {Maths: 72, English: 68, Nepali: 76, Science: 60, SocialStudies: 70}, name: 'Risi Rana', class: 9 },
+            { symbolNo: '9857044987', dob: '2050-10-20', marks: {Maths: 85, English: 90, Nepali: 85, Science: 88, SocialStudies: 91}, name: 'Govinda Karki', class: 8 },
+            { symbolNo: '9857022022', dob: '2050-10-20', marks: {Maths: 45, English: 60, Nepali: 55, Science: 48, SocialStudies: 60}, name: 'Anita Sharma', class: 10 },
+            { symbolNo: '9857022033', dob: '2050-10-20', marks: {Maths: 50, English: 55, Nepali: 60, Science: 52, SocialStudies: 58}, name: 'Ram Kumar', class: 10 },
+            { symbolNo: '9857022044', dob: '2050-10-20', marks: {Maths: 55, English: 60, Nepali: 64, Science: 58, SocialStudies: 62}, name: 'Sita Devi', class: 10 },
+            { symbolNo: '9857022055', dob: '2050-10-20', marks: {Maths: 65, English: 75, Nepali: 78, Science: 80, SocialStudies: 72}, name: 'Nabin Giri', class: 10 },
+            { symbolNo: '9857072908', dob: '2050-10-20', marks: {Maths: 82, English: 80, Nepali: 85, Science: 77, SocialStudies: 88}, name: 'Sagar Ale', class: 10 },
+            { symbolNo: '9844771235', dob: '2050-10-20', marks: {Maths: 90, English: 75, Nepali: 85, Science: 70, SocialStudies: 80}, name: 'Rajendra Nyaupane', class: 12 },
+{ symbolNo: '9804497009', dob: '2050-10-20', marks: {Maths: 50, English: 45, Nepali: 55, Science: 40, SocialStudies: 48}, name: 'Krishna Rai', class: 12 }
         ];
 
         const form = document.getElementById('resultForm');
@@ -153,45 +203,94 @@
             );
 
             if (student) {
-                const percentage = Math.round((student.marks / 100) * 100); // Rounding to nearest integer
+                const totalMarks = Object.values(student.marks).reduce((acc, curr) => acc + curr, 0);
+                const percentage = Math.round((totalMarks / 500) * 100);
 
-                if (percentage >= 60) {
-                    resultDiv.innerHTML = `<div class="alert alert-success">
-                                            <div class="school-name">
-                                                Shree Dabhaukhani Secondary School
-                                            </div>
-                                            <div class="school-location">
-                                                Kaligandaki Rural Municipality-2, Bisauna, Gulmi
-                                            </div>
-                                            <div class="school-year">
-                                                Academic Year: 2081
-                                            </div>
-                                            Student Name: <strong>${student.name}</strong><br>
-                                            Class: <strong>${student.class}</strong><br>
-                                            Your Percentage: <strong>${percentage}%</strong><br>
-                                            Congratulations! You have Passed.
-                                         </div>`;
-                } else {
-                    resultDiv.innerHTML = `<div class="alert alert-danger">
-                                            <div class="school-name">
-                                                Shree Dabhaukhani Secondary School
-                                            </div>
-                                            <div class="school-location">
-                                                Kaligandaki Rural Municipality-2, Bisauna, Gulmi
-                                            </div>
-                                            <div class="school-year">
-                                                Academic Year: 2081
-                                            </div>
-                                            Student Name: <strong>${student.name}</strong><br>
-                                            Class: <strong>${student.class}</strong><br>
-                                            Your Percentage: <strong>${percentage}%</strong><br>
-                                            Sorry! You have not passed.
-                                         </div>`;
-                }
+                const resultStatus = percentage >= 60 ? "Passed" : "Failed";
+
+                resultDiv.innerHTML = `
+                    <div class="alert ${resultStatus === 'Passed' ? 'alert-success' : 'alert-danger'}">
+                        <strong>${resultStatus === 'Passed' ? 'Congratulations!' : 'Sorry, Try Again!'}</strong><br>
+                        ${resultStatus === 'Passed' ? 'You have passed the exam. Well done!' : 'We hope to see you try again next time.'}
+                    </div>
+
+                    <div class="mark-sheet">
+                        <div class="school-name">Shree Dabhaukhani Secondary School</div>
+                        <div class="school-address">Kaligandaki Rural Municipality-2, Bisauna, Gulmi</div>
+                        <div class="academic-year">Academic Year: 2081</div>
+                        <div class="student-name">Student Name: <strong>${student.name}</strong></div>
+                        <div class="student-class">Class: <strong>${student.class}</strong></div>
+                        <div class="student-dob">Date of Birth: <strong>${student.dob}</strong></div>
+                        <div class="student-symbol-no">Symbol Number: <strong>${student.symbolNo}</strong></div>
+                        <div class="online-mark-sheet">Online Mark Sheet</div>
+
+                        <table class="subjects-table table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Obtained Marks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Maths</td>
+                                    <td>${student.marks.Maths}</td>
+                                </tr>
+                                <tr>
+                                    <td>English</td>
+                                    <td>${student.marks.English}</td>
+                                </tr>
+                                <tr>
+                                    <td>Nepali</td>
+                                    <td>${student.marks.Nepali}</td>
+                                </tr>
+                                <tr>
+                                    <td>Science</td>
+                                    <td>${student.marks.Science}</td>
+                                </tr>
+                                <tr>
+                                    <td>Social Studies</td>
+                                    <td>${student.marks.SocialStudies}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Total Marks</strong></td>
+                                    <td><strong>${totalMarks}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Percentage</strong></td>
+                                    <td><strong>${percentage}%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Result</strong></td>
+                                    <td><strong>${resultStatus}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="footer-note" style="text-align: center;">
+                            <strong>नोट:</strong> (अन्य थप जानकारीको लागि विद्यालय प्रशासनमा सम्पर्क गर्नुहोला…  धन्यवाद !)
+                        </div>
+                    </div>
+                `;
             } else {
                 resultDiv.innerHTML = `<div class="alert alert-danger">Invalid Symbol Number, Date of Birth, or Class.</div>`;
             }
         });
+
+        // Function to get the current date and time
+        function getCurrentDateTime() {
+            const currentDate = new Date();
+            const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const formattedDate = currentDate.toLocaleDateString('en-US', dateOptions);
+            const formattedTime = currentDate.toLocaleTimeString('en-US', timeOptions);
+            return `${formattedDate}, ${formattedTime}`;
+        }
+
+        // Display current date, time in the footer area
+        const footer = document.createElement('footer');
+        footer.innerHTML = `<p>Printed on: ${getCurrentDateTime()}</p>`;
+        document.body.appendChild(footer);
     </script>
 </body>
 </html>
