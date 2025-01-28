@@ -241,7 +241,7 @@
             <button type="submit" class="btn btn-primary w-100">Get Result</button>
         </form>
         <div id="result" class="mt-4"></div>
-        <button id="resetBtn" class="btn btn-secondary w-100 mt-3" style="display: none;"> Click here to Get another RESULT</button>
+        <button id="resetBtn" class="btn btn-secondary w-100 mt-3" style="display: none;">Click here to get another RESULT</button>
     </div>
 
     <script>
@@ -249,13 +249,15 @@
             { symbolNo: '9857034010', dob: '2050-10-20', marks: {Maths: 85, English: 90, Nepali: 95, Science: 80, SocialStudies: 75}, name: 'Mausam Shrish', class: 12 },
             { symbolNo: '9863293728', dob: '2050-10-20', marks: {Maths: 78, English: 85, Nepali: 90, Science: 88, SocialStudies: 84}, name: 'Tilak Rana', class: 12 },
             { symbolNo: '9849932015', dob: '2050-10-20', marks: {Maths: 60, English: 58, Nepali: 80, Science: 70, SocialStudies: 65}, name: 'Om Thapa', class: 12 },
-            { symbolNo: '9847019743', dob: '2050-08-15', marks: {Maths: 92, English: 89, Nepali: 87, Science: 90, SocialStudies: 88}, name: 'Rishi Rana', class: 12 },
-            { symbolNo: '9867332611', dob: '2050-07-22', marks: {Maths: 80, English: 85, Nepali: 78, Science: 82, SocialStudies: 75}, name: 'Kisan Thapa', class: 12 },
-            { symbolNo: '9847782086', dob: '2050-06-10', marks: {Maths: 75, English: 80, Nepali: 85, Science: 80, SocialStudies: 79}, name: 'Agnidhar Parajuli', class: 12 },
-            { symbolNo: '9844771235', dob: '2050-05-05', marks: {Maths: 65, English: 70, Nepali: 75, Science: 78, SocialStudies: 74}, name: 'Rajendra Nyaupane', class: 12 },
-            { symbolNo: '9840481152', dob: '2050-09-18', marks: {Maths: 88, English: 87, Nepali: 92, Science: 91, SocialStudies: 85}, name: 'Sijan Rana', class: 12 },
-            { symbolNo: '9847248465', dob: '2050-04-25', marks: {Maths: 70, English: 76, Nepali: 78, Science: 80, SocialStudies: 72}, name: 'Man Bahadur Thapa Sheetal', class: 12 },
-            { symbolNo: '9847167351', dob: '2050-12-01', marks: {Maths: 88, English: 90, Nepali: 85, Science: 86, SocialStudies: 82}, name: 'Yam Bahadur Singjali', class: 12 }
+            { symbolNo: '9847019743', dob: '2050-10-20', marks: {Maths: 92, English: 89, Nepali: 87, Science: 90, SocialStudies: 88}, name: 'Rishi Rana', class: 12 },
+            { symbolNo: '9867332611', dob: '2050-10-20', marks: {Maths: 80, English: 85, Nepali: 78, Science: 82, SocialStudies: 75}, name: 'Kisan Thapa', class: 12 },
+            { symbolNo: '9847782086', dob: '2050-10-20', marks: {Maths: 75, English: 80, Nepali: 85, Science: 80, SocialStudies: 79}, name: 'Agnidhar Parajuli', class: 12 },
+            { symbolNo: '9844771235', dob: '2050-10-20', marks: {Maths: 65, English: 70, Nepali: 75, Science: 78, SocialStudies: 74}, name: 'Rajendra Nyaupane', class: 12 },
+            { symbolNo: '9840481152', dob: '2050-10-20', marks: {Maths: 88, English: 87, Nepali: 92, Science: 91, SocialStudies: 85}, name: 'Sijan Rana', class: 12 },
+            { symbolNo: '9847248465', dob: '2050-10-20', marks: {Maths: 70, English: 76, Nepali: 78, Science: 80, SocialStudies: 72}, name: 'Man Bahadur Thapa Sheetal', class: 12 },
+            { symbolNo: '9847167351', dob: '2050-10-20', marks: {Maths: 88, English: 90, Nepali: 85, Science: 86, SocialStudies: 82}, name: 'Yam Bahadur Singjali', class: 12 },
+            { symbolNo: '9867756990', dob: '2050-10-20', marks: {Maths: 88, English: 90, Nepali: 85, Science: 86, SocialStudies: 82}, name: 'Puspa Nidhi Acharya', class: 12 },
+            { symbolNo: '9765651873', dob: '2050-10-20', marks: {Maths: 88, English: 90, Nepali: 85, Science: 86, SocialStudies: 82}, name: 'Tej Prasad Kafle', class: 12 }
         ];
 
         const form = document.getElementById('resultForm');
@@ -335,14 +337,14 @@
                                 </tr>
                                 <tr>
                                     <td><strong>Total Marks</strong></td>
-                                    <td><strong>${totalMarks} / 500</strong></td>
+                                    <td><strong>${totalMarks}</strong></td>
                                 </tr>
                                 <tr>
                                     <td><strong>Percentage</strong></td>
                                     <td><strong>${percentage}%</strong></td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Status</strong></td>
+                                    <td><strong>Result</strong></td>
                                     <td><strong>${resultStatus}</strong></td>
                                 </tr>
                             </tbody>
@@ -358,19 +360,17 @@
                 `;
                 resetBtn.style.display = 'block';
             } else {
-                resultDiv.innerHTML = `
-                    <div class="alert alert-danger">
-                        <strong>Sorry!</strong> No student found for this symbol number and date of birth.
-                    </div>
-                `;
-                resetBtn.style.display = 'none';
+                resultDiv.innerHTML = '<div class="alert alert-danger">Invalid Symbol Number or Date of Birth. Please try again.</div>';
             }
         });
 
         resetBtn.addEventListener('click', function () {
-            form.reset();
-            resultDiv.innerHTML = '';
-            resetBtn.style.display = 'none';
+            // Reset form and show it again
+            resultContainer.style.display = 'none'; // Hide the result container
+            form.reset(); // Reset form fields
+            resultDiv.innerHTML = ''; // Clear previous result
+            resetBtn.style.display = 'none'; // Hide the reset button
+            resultContainer.style.display = 'block'; // Show the form again
         });
     </script>
 </body>
