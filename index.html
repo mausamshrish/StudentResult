@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Student Result System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Raleway:wght@500&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Raleway:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -24,7 +24,6 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 900px;
-            border: 2px solid #00796b;
             margin-bottom: 20px;
         }
         .header-icon {
@@ -34,12 +33,12 @@
             margin-bottom: 20px;
         }
         .mark-sheet {
-            background-color: #f8f9fa;
+            background-color: #ffffff;
             padding: 30px;
-            border-radius: 10px;
+            border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            border: 2px solid #00796b;
             margin-top: 20px;
+            border: 2px solid #00796b;
         }
         .mark-sheet h4 {
             text-align: center;
@@ -50,22 +49,28 @@
         .mark-sheet .table {
             margin-top: 20px;
             font-size: 18px;
+            border-collapse: collapse;
+            border-radius: 15px;
+            border: 2px solid #00796b;
+            overflow: hidden;
         }
         .mark-sheet .table th, .mark-sheet .table td {
             text-align: center;
             padding: 15px;
+            border-right: 1px solid #00796b;
+            border-bottom: 1px solid #00796b;
         }
         .mark-sheet .table thead {
             background-color: #00796b;
             color: white;
-            opacity: 0.8;
         }
         .mark-sheet .table-bordered {
-            border: 2px solid #00796b;
+            border-radius: 15px;
+            overflow: hidden;
         }
         .result-footer {
-            font-size: 14px; /* Smaller size */
-            color: black; /* Black color */
+            font-size: 12px; /* Smaller font size */
+            color: black;
             text-align: center;
             margin-top: 30px;
         }
@@ -83,7 +88,6 @@
             color: #d32f2f;
         }
 
-        /* Custom Styles */
         .school-name {
             font-size: 30px;
             font-weight: bold;
@@ -104,9 +108,10 @@
             text-decoration: underline;
         }
         .online-mark-sheet {
-            font-size: 28px;
+            font-size: 22px; /* Adjusted smaller size */
+            font-family: 'Chicago', sans-serif; /* Chicago font */
             font-weight: bold;
-            color: #00796b;
+            color: #00796b; /* Same color as table header */
             text-align: center;
             margin-top: 20px;
         }
@@ -122,19 +127,35 @@
             width: 100%;
             margin-top: 30px;
             border-collapse: collapse;
+            font-size: 14px;
         }
         .subjects-table th, .subjects-table td {
             border: 1px solid #ddd;
-            padding: 10px;
+            padding: 8px 12px;
             text-align: center;
         }
         .subjects-table th {
             background-color: #00796b;
             color: white;
-            opacity: 0.8;
+        }
+        .subjects-table {
+            border-radius: 15px;
+            overflow: hidden;
         }
 
-        /* Responsive Design */
+        /* Position Note just below the table */
+        .note {
+            text-align: center;
+            font-size: 12px; /* Made the font size smaller */
+            color: #555;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        .note strong {
+            font-weight: bold; /* Made "Note:-" bold */
+        }
+
         @media (max-width: 768px) {
             .result-container {
                 padding: 15px;
@@ -183,13 +204,6 @@
             }
         }
 
-        /* Styles for the note message */
-        .note {
-            text-align: center;
-            font-size: 14px;
-            color: #555;
-            margin-top: 20px; /* Adjust margin here to control distance from table */
-        }
     </style>
 </head>
 <body>
@@ -233,9 +247,15 @@
     <script>
         const database = [
             { symbolNo: '9857034010', dob: '2050-10-20', marks: {Maths: 85, English: 90, Nepali: 95, Science: 80, SocialStudies: 75}, name: 'Mausam Shrish', class: 12 },
-            { symbolNo: '9863293728', dob: '2050-10-20', marks: {Maths: 78, English: 85, Nepali: 90, Science: 88, SocialStudies: 84}, name: 'Tilak Rana', class: 11 },
-            { symbolNo: '9849932015', dob: '2050-10-20', marks: {Maths: 60, English: 58, Nepali: 80, Science: 70, SocialStudies: 65}, name: 'Om Thapa', class: 10 },
-            // ... Other student records
+            { symbolNo: '9863293728', dob: '2050-10-20', marks: {Maths: 78, English: 85, Nepali: 90, Science: 88, SocialStudies: 84}, name: 'Tilak Rana', class: 12 },
+            { symbolNo: '9849932015', dob: '2050-10-20', marks: {Maths: 60, English: 58, Nepali: 80, Science: 70, SocialStudies: 65}, name: 'Om Thapa', class: 12 },
+            { symbolNo: '9847019743', dob: '2050-08-15', marks: {Maths: 92, English: 89, Nepali: 87, Science: 90, SocialStudies: 88}, name: 'Rishi Rana', class: 12 },
+            { symbolNo: '9867332611', dob: '2050-07-22', marks: {Maths: 80, English: 85, Nepali: 78, Science: 82, SocialStudies: 75}, name: 'Kisan Thapa', class: 12 },
+            { symbolNo: '9847782086', dob: '2050-06-10', marks: {Maths: 75, English: 80, Nepali: 85, Science: 80, SocialStudies: 79}, name: 'Agnidhar Parajuli', class: 12 },
+            { symbolNo: '9844771235', dob: '2050-05-05', marks: {Maths: 65, English: 70, Nepali: 75, Science: 78, SocialStudies: 74}, name: 'Rajendra Nyaupane', class: 12 },
+            { symbolNo: '9840481152', dob: '2050-09-18', marks: {Maths: 88, English: 87, Nepali: 92, Science: 91, SocialStudies: 85}, name: 'Sijan Rana', class: 12 },
+            { symbolNo: '9847248465', dob: '2050-04-25', marks: {Maths: 70, English: 76, Nepali: 78, Science: 80, SocialStudies: 72}, name: 'Man Bahadur Thapa Sheetal', class: 12 },
+            { symbolNo: '9847167351', dob: '2050-12-01', marks: {Maths: 88, English: 90, Nepali: 85, Science: 86, SocialStudies: 82}, name: 'Yam Bahadur Singjali', class: 12 }
         ];
 
         const form = document.getElementById('resultForm');
@@ -283,7 +303,7 @@
                         <div class="student-class">Class: <strong>${student.class}</strong></div>
                         <div class="student-dob">Date of Birth: <strong>${student.dob}</strong></div>
                         <div class="student-symbol-no">Symbol Number: <strong>${student.symbolNo}</strong></div>
-                        <div class="online-mark-sheet">Online Mark Sheet</div>
+                        <div class="online-mark-sheet">Online Grade/MarkSheet</div>
 
                         <table class="subjects-table table table-bordered">
                             <thead>
@@ -315,45 +335,42 @@
                                 </tr>
                                 <tr>
                                     <td><strong>Total Marks</strong></td>
-                                    <td><strong>${totalMarks}</strong></td>
+                                    <td><strong>${totalMarks} / 500</strong></td>
                                 </tr>
                                 <tr>
                                     <td><strong>Percentage</strong></td>
                                     <td><strong>${percentage}%</strong></td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Result</strong></td>
+                                    <td><strong>Status</strong></td>
                                     <td><strong>${resultStatus}</strong></td>
                                 </tr>
                             </tbody>
                         </table>
 
                         <div class="note">
-                            <p><strong>नोट:</strong> (अन्य थप जानकारीको लागि विद्यालय प्रशासनमा सम्पर्क गर्नुहोला… धन्यवाद !) </p>
+                            <p><strong>(नोट:-</strong> थप जानकारीको लागि, कृपया विद्यालय प्रशासनमा सम्पर्क गर्नुहोला... धन्यवाद !)</p>
                         </div>
                     </div>
-
                     <div class="result-footer">
-                        <p>Printed Date and Time: ${formattedDate}</p>
+                        Printed Date and Time:- ${formattedDate}
                     </div>
                 `;
-
-                // Hide input panel
-                form.style.display = 'none';
-                resultContainer.style.marginTop = '30px'; // Add margin between the form and result
-
-                // Show reset button
                 resetBtn.style.display = 'block';
             } else {
-                resultDiv.innerHTML = '<div class="alert alert-danger">Invalid details. Please check and try again.</div>';
+                resultDiv.innerHTML = `
+                    <div class="alert alert-danger">
+                        <strong>Sorry!</strong> No student found for this symbol number and date of birth.
+                    </div>
+                `;
+                resetBtn.style.display = 'none';
             }
         });
 
         resetBtn.addEventListener('click', function () {
-            form.style.display = 'block'; // Show the input form again
-            resultContainer.style.marginTop = '0'; // Reset the margin
-            resultDiv.innerHTML = ''; // Clear result
-            resetBtn.style.display = 'none'; // Hide reset button
+            form.reset();
+            resultDiv.innerHTML = '';
+            resetBtn.style.display = 'none';
         });
     </script>
 </body>
